@@ -63,37 +63,9 @@ const Landing = () => {
     },
   ];
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    element?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
-      
-      {/* Navigation Bar */}
-      <nav className="sticky top-0 z-40 border-b border-border/50 bg-background/95 backdrop-blur-sm">
-        <div className="container px-4 py-3">
-          <div className="flex items-center justify-center gap-8">
-            <button onClick={() => scrollToSection('home')} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Home
-            </button>
-            <button onClick={() => scrollToSection('features')} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Features
-            </button>
-            <button onClick={() => scrollToSection('roles')} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              User Roles
-            </button>
-            <button onClick={() => scrollToSection('impacts')} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Impacts
-            </button>
-            <button onClick={() => scrollToSection('contact')} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Contact
-            </button>
-          </div>
-        </div>
-      </nav>
       
       {/* Hero Section */}
       <section id="home" className="relative overflow-hidden">
