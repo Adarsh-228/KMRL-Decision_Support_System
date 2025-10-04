@@ -8,102 +8,80 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Futuristic dark theme - mission control aesthetic */
-    --background: 222 47% 4%;
-    --foreground: 210 40% 98%;
+    /* Professional dark theme - enterprise control system */
+    --background: 222 47% 8%;
+    --foreground: 210 20% 98%;
 
-    --card: 222 47% 8%;
-    --card-foreground: 210 40% 98%;
+    --card: 222 47% 11%;
+    --card-foreground: 210 20% 98%;
 
-    --popover: 222 47% 8%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 20% 98%;
 
-    /* Primary: Neon Blue - high-tech authority */
-    --primary: 210 100% 60%;
-    --primary-foreground: 222 47% 4%;
-    --primary-glow: 210 100% 70%;
+    /* Primary: Professional Blue */
+    --primary: 217 91% 60%;
+    --primary-foreground: 210 40% 98%;
 
-    /* Secondary: Cyan - tech efficiency */
-    --secondary: 180 100% 50%;
-    --secondary-foreground: 222 47% 4%;
+    /* Secondary: Steel Gray-Blue */
+    --secondary: 215 20% 65%;
+    --secondary-foreground: 222 47% 11%;
 
-    /* Muted: Dark subtle backgrounds */
-    --muted: 217 33% 12%;
+    /* Muted: Subtle backgrounds */
+    --muted: 217 33% 17%;
     --muted-foreground: 215 20% 65%;
 
-    /* Accent: Electric Purple */
-    --accent: 270 100% 65%;
-    --accent-foreground: 222 47% 4%;
+    /* Accent: Professional Cyan */
+    --accent: 189 85% 55%;
+    --accent-foreground: 222 47% 11%;
 
-    /* Role-specific neon colors */
-    --role-supervisor: 210 100% 60%;
-    --role-rolling: 0 100% 65%;
-    --role-signalling: 142 100% 50%;
-    --role-telecom: 180 100% 50%;
-    --role-branding: 270 100% 65%;
-    --role-cleaning: 170 80% 55%;
-    --role-yard: 30 100% 60%;
+    /* Role-specific colors - professional palette */
+    --role-supervisor: 217 91% 60%;
+    --role-rolling: 0 70% 60%;
+    --role-signalling: 142 70% 45%;
+    --role-telecom: 189 85% 55%;
+    --role-branding: 270 70% 60%;
+    --role-cleaning: 170 60% 50%;
+    --role-yard: 30 80% 55%;
 
-    /* Status colors - neon enhanced */
-    --success: 142 100% 50%;
-    --success-foreground: 222 47% 4%;
+    /* Status colors - professional */
+    --success: 142 70% 45%;
+    --success-foreground: 210 40% 98%;
     
-    --warning: 38 100% 60%;
-    --warning-foreground: 222 47% 4%;
+    --warning: 38 90% 55%;
+    --warning-foreground: 222 47% 11%;
     
-    --destructive: 0 100% 65%;
-    --destructive-foreground: 222 47% 4%;
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 210 40% 98%;
     
-    --info: 210 100% 60%;
-    --info-foreground: 222 47% 4%;
+    --info: 217 91% 60%;
+    --info-foreground: 210 40% 98%;
 
-    --border: 217 33% 17%;
-    --input: 217 33% 17%;
-    --ring: 210 100% 60%;
+    --border: 217 33% 20%;
+    --input: 217 33% 20%;
+    --ring: 217 91% 60%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    /* Futuristic gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(210 100% 60%), hsl(210 100% 70%));
-    --gradient-secondary: linear-gradient(135deg, hsl(180 100% 50%), hsl(180 100% 60%));
-    --gradient-hero: linear-gradient(135deg, hsl(222 47% 4%) 0%, hsl(210 50% 10%) 50%, hsl(222 47% 4%) 100%);
-    --gradient-glass: linear-gradient(135deg, hsla(222 47% 8% / 0.9), hsla(222 47% 8% / 0.7));
-    --gradient-neon: linear-gradient(90deg, hsl(210 100% 60%), hsl(180 100% 50%), hsl(270 100% 65%));
+    /* Professional shadows - subtle */
+    --shadow-card: 0 2px 8px hsl(222 47% 4% / 0.3);
 
-    /* Neon glow shadows */
-    --shadow-sm: 0 1px 2px 0 hsl(210 100% 60% / 0.1);
-    --shadow-md: 0 4px 6px -1px hsl(210 100% 60% / 0.2);
-    --shadow-lg: 0 10px 15px -3px hsl(210 100% 60% / 0.3);
-    --shadow-glow: 0 0 30px hsl(210 100% 60% / 0.5);
-    --shadow-glow-cyan: 0 0 30px hsl(180 100% 50% / 0.5);
-    --shadow-glow-purple: 0 0 30px hsl(270 100% 65% / 0.5);
-    --shadow-card: 0 4px 20px hsl(210 100% 60% / 0.15);
-
-    /* Animations */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Smooth transitions */
+    --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    /* Dark mode uses same futuristic theme */
-    --background: 222 47% 2%;
-    --card: 222 47% 6%;
+    /* Dark mode - professional theme */
+    --background: 222 47% 6%;
+    --card: 222 47% 10%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;

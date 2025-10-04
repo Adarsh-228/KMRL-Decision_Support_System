@@ -11,7 +11,7 @@ const CleaningDashboard = () => {
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex items-center gap-3">
-          <Sparkles className="w-8 h-8 text-secondary" />
+          <Sparkles className="w-7 h-7 text-primary" />
           <div>
             <h1 className="text-3xl font-bold text-foreground">Cleaning Lead</h1>
             <p className="text-muted-foreground">Interior, Exterior & Sanitization</p>
@@ -20,7 +20,7 @@ const CleaningDashboard = () => {
 
         <div className="grid lg:grid-cols-2 gap-6">
           {demoTrainsets.map((trainset) => (
-            <Card key={trainset.id} className="p-6 bg-card/50 border-border/50">
+            <Card key={trainset.id} className="p-6 bg-card border-border">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold text-foreground">{trainset.id}</h2>
                 <Badge
@@ -35,7 +35,7 @@ const CleaningDashboard = () => {
               </div>
 
               <div className="space-y-4">
-                <div className="p-4 bg-muted/30 rounded-lg">
+                <div className="p-4 bg-muted/30 rounded-md">
                   <h3 className="font-semibold text-foreground mb-3">Interior Cleaning</h3>
                   <div className="space-y-2">
                     {["Floors", "Windows", "Seats", "Toilets"].map((item) => (
@@ -57,8 +57,8 @@ const CleaningDashboard = () => {
                   </div>
                 </div>
 
-                <div className="p-4 bg-muted/30 rounded-lg">
-                  <h3 className="font-semibold text-foreground mb-3">Special Tasks</h3>
+                <div className="p-4 bg-muted/30 rounded-md">
+                  <h3 className="font-semibold text-foreground mb-3">Pest Control & Sanitization</h3>
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
                       <Checkbox id={`${trainset.id}-pest`} defaultChecked />
@@ -69,13 +69,13 @@ const CleaningDashboard = () => {
                     <div className="flex items-center gap-2">
                       <Checkbox id={`${trainset.id}-sanitize`} defaultChecked />
                       <Label htmlFor={`${trainset.id}-sanitize`} className="flex-1 cursor-pointer">
-                        Sanitization
+                        Sanitization (Post-COVID)
                       </Label>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-4 bg-muted/30 rounded-lg">
+                <div className="p-4 bg-muted/30 rounded-md">
                   <h3 className="font-semibold text-foreground mb-3">Exterior Cleaning</h3>
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
@@ -102,7 +102,7 @@ const CleaningDashboard = () => {
                 </div>
 
                 <Button
-                  className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                   disabled={trainset.cleaning === "Done"}
                 >
                   {trainset.cleaning === "Done" ? "Completed" : "Mark Complete"}

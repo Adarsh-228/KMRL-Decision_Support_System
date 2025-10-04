@@ -10,7 +10,7 @@ const SupervisorDashboard = () => {
 
   const kpis = [
     { label: "Fleet Readiness", value: "60%", icon: <BarChart3 className="w-5 h-5" />, color: "text-success" },
-    { label: "Branding Exposure", value: "75%", icon: <Users className="w-5 h-5" />, color: "text-secondary" },
+    { label: "Branding Exposure", value: "75%", icon: <Users className="w-5 h-5" />, color: "text-primary" },
     { label: "Open Job Cards", value: "2", icon: <AlertTriangle className="w-5 h-5" />, color: "text-warning" },
     { label: "Shunting Score", value: "8.2", icon: <FileCheck className="w-5 h-5" />, color: "text-info" },
   ];
@@ -25,7 +25,7 @@ const SupervisorDashboard = () => {
               {new Date().toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
             </p>
           </div>
-          <Button className="bg-secondary hover:bg-secondary/90 text-secondary-foreground">
+          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
             Run Optimizer
           </Button>
         </div>
@@ -33,7 +33,7 @@ const SupervisorDashboard = () => {
         {/* KPI Strip */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {kpis.map((kpi) => (
-            <Card key={kpi.label} className="p-4 bg-card/50 border-border/50">
+            <Card key={kpi.label} className="p-4 bg-card border-border">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-muted-foreground">{kpi.label}</p>
@@ -46,9 +46,9 @@ const SupervisorDashboard = () => {
         </div>
 
         {/* Ranked Induction Panel */}
-        <Card className="p-6 bg-card/50 border-border/50">
+        <Card className="p-6 bg-card border-border">
           <div className="flex items-center gap-3 mb-6">
-            <BarChart3 className="w-6 h-6 text-secondary" />
+            <BarChart3 className="w-6 h-6 text-primary" />
             <h2 className="text-2xl font-bold text-foreground">Ranked Induction Plan</h2>
           </div>
           
@@ -83,7 +83,7 @@ const SupervisorDashboard = () => {
           </div>
 
           <div className="mt-6 flex gap-4">
-            <Button className="bg-secondary hover:bg-secondary/90 text-secondary-foreground flex-1">
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground flex-1">
               Lock & Approve Plan
             </Button>
             <Button variant="outline" className="flex-1">

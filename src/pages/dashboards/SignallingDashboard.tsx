@@ -21,7 +21,7 @@ const SignallingDashboard = () => {
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex items-center gap-3">
-          <Radio className="w-8 h-8 text-secondary" />
+          <Radio className="w-7 h-7 text-primary" />
           <div>
             <h1 className="text-3xl font-bold text-foreground">Signalling System</h1>
             <p className="text-muted-foreground">Safety & Communication Verification</p>
@@ -30,7 +30,7 @@ const SignallingDashboard = () => {
 
         <div className="grid lg:grid-cols-2 gap-6">
           {demoTrainsets.map((trainset) => (
-            <Card key={trainset.id} className="p-6 bg-card/50 border-border/50">
+            <Card key={trainset.id} className="p-6 bg-card border-border">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold text-foreground">{trainset.id}</h2>
                 <Badge
@@ -46,7 +46,7 @@ const SignallingDashboard = () => {
 
               <div className="space-y-4">
                 {checklistItems.map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-3 p-3 bg-muted/30 rounded-lg">
+                  <div key={idx} className="flex items-start gap-3 p-3 bg-muted/30 rounded-md">
                     <Checkbox
                       id={`${trainset.id}-${idx}`}
                       checked={selectedTests[`${trainset.id}-${idx}`]}
@@ -66,7 +66,7 @@ const SignallingDashboard = () => {
                   </div>
                 ))}
 
-                <div className="pt-3 border-t border-border/50">
+                <div className="pt-3 border-t border-border">
                   <Label className="text-sm text-muted-foreground mb-2 block">Error Notes (if any)</Label>
                   <Textarea
                     placeholder="Enter error code, description, or attach log..."
@@ -86,10 +86,10 @@ const SignallingDashboard = () => {
           ))}
         </div>
 
-        <Card className="p-6 bg-card/50 border-border/50">
+        <Card className="p-6 bg-card border-border">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <FileText className="w-6 h-6 text-secondary" />
+              <FileText className="w-6 h-6 text-primary" />
               <div>
                 <h2 className="text-xl font-bold text-foreground">Compliance Report</h2>
                 <p className="text-sm text-muted-foreground">Last 24h test logs</p>
@@ -98,7 +98,7 @@ const SignallingDashboard = () => {
             <div className="flex gap-3">
               <Button variant="outline">Export PDF</Button>
               <Button variant="outline">Export CSV</Button>
-              <Button className="bg-secondary hover:bg-secondary/90 text-secondary-foreground">
+              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
                 Generate Report
               </Button>
             </div>

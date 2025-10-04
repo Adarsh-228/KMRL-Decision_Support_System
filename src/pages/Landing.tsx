@@ -63,145 +63,123 @@ const Landing = () => {
     },
   ];
 
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    element?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
       
+      {/* Navigation Bar */}
+      <nav className="sticky top-0 z-40 border-b border-border/50 bg-background/95 backdrop-blur-sm">
+        <div className="container px-4 py-3">
+          <div className="flex items-center justify-center gap-8">
+            <button onClick={() => scrollToSection('home')} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              Home
+            </button>
+            <button onClick={() => scrollToSection('features')} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              Features
+            </button>
+            <button onClick={() => scrollToSection('roles')} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              User Roles
+            </button>
+            <button onClick={() => scrollToSection('impacts')} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              Impacts
+            </button>
+            <button onClick={() => scrollToSection('contact')} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              Contact
+            </button>
+          </div>
+        </div>
+      </nav>
+      
       {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/5 to-accent/10" />
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.05) 1px, transparent 1px)`,
-          backgroundSize: '40px 40px'
-        }} />
+      <section id="home" className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5" />
         
-        <div className="container relative px-4 pt-32 pb-40">
-          <div className="max-w-5xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary/10 border border-primary/30 mb-8 backdrop-blur-sm">
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
-              </span>
-              <span className="text-sm font-bold text-primary tracking-wider">NEXT-GEN DEPOT CONTROL SYSTEM</span>
-            </div>
-
-            <h1 className="text-6xl md:text-8xl font-black mb-6 leading-tight tracking-tight">
-              <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-pulse-glow">
-                Smart Depot
-              </span>
-              <br />
-              <span className="text-foreground">Induction Platform</span>
+        <div className="container relative px-4 pt-24 pb-32">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+              Smart Depot Induction Platform
             </h1>
 
-            <p className="text-2xl md:text-3xl font-light mb-12 text-muted-foreground tracking-wide">
-              Precision. <span className="text-primary">Safety.</span> Reliability.
+            <p className="text-2xl md:text-3xl mb-12 text-muted-foreground">
+              Precision. Safety. Reliability.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <div className="flex items-center justify-center">
               <Link to="/login">
                 <Button 
                   size="lg" 
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-12 py-6 text-lg rounded-xl shadow-glow transition-all hover:shadow-glow hover:scale-105"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-12 py-6 text-lg"
                 >
-                  Launch Control Panel
+                  Login →
                 </Button>
               </Link>
-              <Button 
-                size="lg" 
-                variant="outline"
-                className="border-primary/50 text-primary hover:bg-primary/10 font-bold px-12 py-6 text-lg rounded-xl backdrop-blur-sm"
-              >
-                Learn More
-              </Button>
             </div>
           </div>
         </div>
       </section>
 
       {/* Why This Platform */}
-      <section className="container px-4 py-24">
+      <section id="features" className="container px-4 py-20">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-5xl font-black text-center mb-4">
-            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Why This Platform
-            </span>
+          <h2 className="text-4xl font-bold text-center mb-3">
+            Why This Platform
           </h2>
-          <p className="text-center text-muted-foreground text-lg mb-16">
+          <p className="text-center text-muted-foreground text-lg mb-12">
             Built for mission-critical operations
           </p>
 
           <div className="grid md:grid-cols-3 gap-8">
             <FeatureCard
-              icon={<Zap className="w-12 h-12" />}
+              icon={<Zap className="w-10 h-10" />}
               title="Seamless Train Induction"
               description="Automated workflows reduce induction time by 60%, ensuring trains are service-ready faster than ever."
-              glowColor="var(--primary)"
             />
             <FeatureCard
-              icon={<Shield className="w-12 h-12" />}
+              icon={<Shield className="w-10 h-10" />}
               title="AI-driven Alerts & Maintenance"
               description="Predictive analytics detect issues before they occur, preventing 95% of unscheduled downtime."
-              glowColor="var(--secondary)"
             />
             <FeatureCard
-              icon={<BarChart3 className="w-12 h-12" />}
+              icon={<BarChart3 className="w-10 h-10" />}
               title="Role-based Smart Dashboards"
               description="Each team member gets a tailored interface optimized for their specific operational needs."
-              glowColor="var(--accent)"
             />
           </div>
         </div>
       </section>
 
       {/* User Roles Section */}
-      <section className="container px-4 py-24">
+      <section id="roles" className="container px-4 py-20">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-5xl font-black text-center mb-4">
-            <span className="bg-gradient-to-r from-secondary via-primary to-accent bg-clip-text text-transparent">
-              Role-Based Command Centers
-            </span>
+          <h2 className="text-4xl font-bold text-center mb-3">
+            User Roles
           </h2>
-          <p className="text-center text-muted-foreground text-lg mb-16">
+          <p className="text-center text-muted-foreground text-lg mb-12">
             Click to access your specialized control interface
           </p>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {roles.map((role) => (
               <Link key={role.id} to="/login" state={{ preselectedRole: role.id }}>
-                <div
-                  className="group relative p-8 rounded-2xl bg-card border border-border/50 hover:border-primary/50 transition-all duration-300 hover:scale-105 cursor-pointer overflow-hidden"
-                  style={{
-                    boxShadow: `0 0 0 1px ${role.color}20, 0 8px 32px -8px ${role.color}40`
-                  }}
-                >
-                  <div 
-                    className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
-                    style={{ background: `radial-gradient(circle at 50% 50%, ${role.color}, transparent)` }}
-                  />
-                  
-                  <div className="relative z-10">
-                    <div 
-                      className="text-5xl mb-4 transition-transform duration-300 group-hover:scale-110"
-                      style={{ filter: `drop-shadow(0 0 8px ${role.color})` }}
-                    >
-                      {role.icon}
-                    </div>
-                    
-                    <h3 className="text-xl font-bold mb-1 text-foreground group-hover:text-primary transition-colors">
-                      {role.title}
-                    </h3>
-                    <p className="text-sm font-semibold mb-3" style={{ color: role.color }}>
-                      {role.subtitle}
-                    </p>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {role.description}
-                    </p>
+                <div className="group relative p-6 rounded-lg bg-card border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg cursor-pointer h-full">
+                  <div className="text-4xl mb-3">
+                    {role.icon}
                   </div>
-
-                  <div 
-                    className="absolute bottom-0 left-0 right-0 h-1 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
-                    style={{ backgroundColor: role.color }}
-                  />
+                  
+                  <h3 className="text-lg font-bold mb-1 text-foreground group-hover:text-primary transition-colors">
+                    {role.title}
+                  </h3>
+                  <p className="text-sm font-semibold mb-2" style={{ color: role.color }}>
+                    {role.subtitle}
+                  </p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {role.description}
+                  </p>
                 </div>
               </Link>
             ))}
@@ -210,29 +188,27 @@ const Landing = () => {
       </section>
 
       {/* Impact & Benefits */}
-      <section className="container px-4 py-24">
+      <section id="impacts" className="container px-4 py-20">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-5xl font-black text-center mb-16">
-            <span className="bg-gradient-to-r from-accent via-primary to-secondary bg-clip-text text-transparent">
-              Operational Excellence
-            </span>
+          <h2 className="text-4xl font-bold text-center mb-12">
+            Operational Excellence
           </h2>
 
           <div className="grid md:grid-cols-3 gap-8">
             <ImpactCard
-              icon={<TrendingUp className="w-10 h-10" />}
+              icon={<TrendingUp className="w-8 h-8" />}
               number="60%"
               label="Time Saved"
               color="hsl(var(--role-signalling))"
             />
             <ImpactCard
-              icon={<Award className="w-10 h-10" />}
+              icon={<Award className="w-8 h-8" />}
               number="95%"
               label="Error Reduction"
               color="hsl(var(--role-telecom))"
             />
             <ImpactCard
-              icon={<Users className="w-10 h-10" />}
+              icon={<Users className="w-8 h-8" />}
               number="99.9%"
               label="Reliability Boost"
               color="hsl(var(--role-branding))"
@@ -242,17 +218,17 @@ const Landing = () => {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border/50 bg-card/50 backdrop-blur-sm">
-        <div className="container px-4 py-12">
+      <footer id="contact" className="border-t border-border/50 bg-card/50">
+        <div className="container px-4 py-8">
           <div className="max-w-6xl mx-auto text-center">
-            <h3 className="text-2xl font-bold mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            <h3 className="text-xl font-bold mb-1">
               Smart Depot Induction Platform
             </h3>
-            <p className="text-muted-foreground text-sm mb-4">
+            <p className="text-muted-foreground text-sm mb-3">
               Next-generation depot operations management
             </p>
             <p className="text-muted-foreground text-xs">
-              © 2025 KMRL DSS. All rights reserved. Built for operational excellence.
+              © 2025 KMRL DSS. All rights reserved.
             </p>
           </div>
         </div>
@@ -261,28 +237,17 @@ const Landing = () => {
   );
 };
 
-const FeatureCard = ({ icon, title, description, glowColor }: { 
+const FeatureCard = ({ icon, title, description }: { 
   icon: React.ReactNode; 
   title: string; 
   description: string;
-  glowColor: string;
 }) => (
-  <div className="group relative p-8 rounded-2xl bg-card border border-border/50 hover:border-primary/50 transition-all duration-300 overflow-hidden">
-    <div 
-      className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-300"
-      style={{ background: `radial-gradient(circle at 50% 0%, ${glowColor}, transparent)` }}
-    />
-    
-    <div className="relative z-10">
-      <div 
-        className="text-primary mb-6 transition-transform duration-300 group-hover:scale-110"
-        style={{ filter: `drop-shadow(0 0 8px ${glowColor})` }}
-      >
-        {icon}
-      </div>
-      <h3 className="text-2xl font-bold mb-4 text-foreground">{title}</h3>
-      <p className="text-muted-foreground leading-relaxed">{description}</p>
+  <div className="p-6 rounded-lg bg-card border border-border/50 hover:border-primary/50 transition-all">
+    <div className="text-primary mb-4">
+      {icon}
     </div>
+    <h3 className="text-xl font-bold mb-3 text-foreground">{title}</h3>
+    <p className="text-muted-foreground leading-relaxed">{description}</p>
   </div>
 );
 
@@ -292,21 +257,14 @@ const ImpactCard = ({ icon, number, label, color }: {
   label: string;
   color: string;
 }) => (
-  <div className="relative p-10 rounded-2xl bg-card border border-border/50 text-center overflow-hidden group">
-    <div 
-      className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
-      style={{ background: `radial-gradient(circle at 50% 50%, ${color}, transparent)` }}
-    />
-    
-    <div className="relative z-10">
-      <div className="flex justify-center mb-4" style={{ color }}>
-        {icon}
-      </div>
-      <div className="text-6xl font-black mb-2" style={{ color }}>
-        {number}
-      </div>
-      <p className="text-muted-foreground font-semibold text-lg">{label}</p>
+  <div className="p-8 rounded-lg bg-card border border-border/50 text-center">
+    <div className="flex justify-center mb-3" style={{ color }}>
+      {icon}
     </div>
+    <div className="text-5xl font-bold mb-2" style={{ color }}>
+      {number}
+    </div>
+    <p className="text-muted-foreground font-semibold">{label}</p>
   </div>
 );
 

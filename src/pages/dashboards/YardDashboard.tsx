@@ -17,14 +17,14 @@ const YardDashboard = () => {
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex items-center gap-3">
-          <MapPin className="w-8 h-8 text-secondary" />
+          <MapPin className="w-7 h-7 text-primary" />
           <div>
             <h1 className="text-3xl font-bold text-foreground">Depot Operations / Yard Master</h1>
             <p className="text-muted-foreground">Yard Parking & Shunting Optimization</p>
           </div>
         </div>
 
-        <Card className="p-6 bg-card/50 border-border/50">
+        <Card className="p-6 bg-card border-border">
           <h2 className="text-xl font-bold text-foreground mb-4">Yard Configuration</h2>
           <div className="grid md:grid-cols-2 gap-4">
             <div>
@@ -50,9 +50,9 @@ const YardDashboard = () => {
           </div>
         </Card>
 
-        <Card className="p-6 bg-card/50 border-border/50">
+        <Card className="p-6 bg-card border-border">
           <div className="flex items-center gap-3 mb-6">
-            <Grid3x3 className="w-6 h-6 text-secondary" />
+            <Grid3x3 className="w-6 h-6 text-primary" />
             <h2 className="text-xl font-bold text-foreground">Yard Parking Map</h2>
           </div>
 
@@ -62,14 +62,14 @@ const YardDashboard = () => {
               return (
                 <div
                   key={slot}
-                  className="p-4 bg-muted/30 rounded-lg border-2 border-dashed border-border hover:border-primary transition-colors cursor-move"
+                  className="p-4 bg-muted/30 rounded-md border-2 border-dashed border-border hover:border-primary transition-colors cursor-move"
                 >
                   <div className="text-center">
                     <div className="text-xs text-muted-foreground mb-2">Track {slot}</div>
                     {trainset && (
                       <div className="space-y-2">
                         <div className="font-bold text-foreground">{trainset.id}</div>
-                        <Badge className="text-xs bg-secondary/20 text-secondary">
+                        <Badge className="text-xs bg-primary/20 text-primary">
                           Position {idx + 1}
                         </Badge>
                         <div className="text-xs text-muted-foreground">
@@ -86,14 +86,14 @@ const YardDashboard = () => {
             })}
           </div>
 
-          <div className="p-4 bg-secondary/10 rounded-lg border border-secondary/30">
+          <div className="p-4 bg-primary/10 rounded-md border border-primary/30">
             <h3 className="font-bold text-foreground mb-2">Suggested First-Out Positions</h3>
             <p className="text-sm text-muted-foreground mb-3">
               Based on planner ranking, shunting cost, and turnout time
             </p>
             <div className="flex flex-wrap gap-2">
               {["KM-104", "KM-105", "KM-101", "KM-103", "KM-102"].map((id, idx) => (
-                <Badge key={id} className="bg-secondary/20 text-secondary">
+                <Badge key={id} className="bg-primary/20 text-primary">
                   {idx + 1}. {id}
                 </Badge>
               ))}
@@ -101,7 +101,7 @@ const YardDashboard = () => {
           </div>
 
           <div className="mt-6 flex gap-4">
-            <Button className="bg-secondary hover:bg-secondary/90 text-secondary-foreground flex-1 gap-2">
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground flex-1 gap-2">
               <Save className="w-4 h-4" />
               Save Slot Assignments
             </Button>
