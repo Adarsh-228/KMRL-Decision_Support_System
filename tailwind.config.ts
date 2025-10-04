@@ -60,6 +60,15 @@ export default {
           DEFAULT: "hsl(var(--info))",
           foreground: "hsl(var(--info-foreground))",
         },
+        role: {
+          supervisor: "hsl(var(--role-supervisor))",
+          rolling: "hsl(var(--role-rolling))",
+          signalling: "hsl(var(--role-signalling))",
+          telecom: "hsl(var(--role-telecom))",
+          branding: "hsl(var(--role-branding))",
+          cleaning: "hsl(var(--role-cleaning))",
+          yard: "hsl(var(--role-yard))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

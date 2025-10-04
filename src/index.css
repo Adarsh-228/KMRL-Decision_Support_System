@@ -8,64 +8,76 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Metro brand colors - professional transit system palette */
-    --background: 210 20% 98%;
-    --foreground: 222 47% 11%;
+    /* Futuristic dark theme - mission control aesthetic */
+    --background: 222 47% 4%;
+    --foreground: 210 40% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover: 222 47% 8%;
+    --popover-foreground: 210 40% 98%;
 
-    /* Primary: Metro blue - authority & trust */
-    --primary: 210 90% 45%;
-    --primary-foreground: 0 0% 100%;
-    --primary-glow: 210 90% 60%;
+    /* Primary: Neon Blue - high-tech authority */
+    --primary: 210 100% 60%;
+    --primary-foreground: 222 47% 4%;
+    --primary-glow: 210 100% 70%;
 
-    /* Secondary: Teal accent - technology & efficiency */
-    --secondary: 180 70% 40%;
-    --secondary-foreground: 0 0% 100%;
+    /* Secondary: Cyan - tech efficiency */
+    --secondary: 180 100% 50%;
+    --secondary-foreground: 222 47% 4%;
 
-    /* Muted: Subtle backgrounds */
-    --muted: 210 20% 95%;
-    --muted-foreground: 215 16% 47%;
+    /* Muted: Dark subtle backgrounds */
+    --muted: 217 33% 12%;
+    --muted-foreground: 215 20% 65%;
 
-    /* Accent: Warning amber for alerts */
-    --accent: 38 92% 50%;
-    --accent-foreground: 222 47% 11%;
+    /* Accent: Electric Purple */
+    --accent: 270 100% 65%;
+    --accent-foreground: 222 47% 4%;
 
-    /* Status colors */
-    --success: 142 76% 36%;
-    --success-foreground: 0 0% 100%;
+    /* Role-specific neon colors */
+    --role-supervisor: 210 100% 60%;
+    --role-rolling: 0 100% 65%;
+    --role-signalling: 142 100% 50%;
+    --role-telecom: 180 100% 50%;
+    --role-branding: 270 100% 65%;
+    --role-cleaning: 170 80% 55%;
+    --role-yard: 30 100% 60%;
+
+    /* Status colors - neon enhanced */
+    --success: 142 100% 50%;
+    --success-foreground: 222 47% 4%;
     
-    --warning: 38 92% 50%;
-    --warning-foreground: 222 47% 11%;
+    --warning: 38 100% 60%;
+    --warning-foreground: 222 47% 4%;
     
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 100% 65%;
+    --destructive-foreground: 222 47% 4%;
     
-    --info: 210 90% 45%;
-    --info-foreground: 0 0% 100%;
+    --info: 210 100% 60%;
+    --info-foreground: 222 47% 4%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 210 90% 45%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 210 100% 60%;
 
     --radius: 0.75rem;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(210 90% 45%), hsl(210 90% 60%));
-    --gradient-secondary: linear-gradient(135deg, hsl(180 70% 40%), hsl(180 70% 55%));
-    --gradient-hero: linear-gradient(135deg, hsl(210 90% 45%) 0%, hsl(180 70% 40%) 100%);
-    --gradient-glass: linear-gradient(135deg, hsla(0 0% 100% / 0.9), hsla(0 0% 100% / 0.7));
+    /* Futuristic gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(210 100% 60%), hsl(210 100% 70%));
+    --gradient-secondary: linear-gradient(135deg, hsl(180 100% 50%), hsl(180 100% 60%));
+    --gradient-hero: linear-gradient(135deg, hsl(222 47% 4%) 0%, hsl(210 50% 10%) 50%, hsl(222 47% 4%) 100%);
+    --gradient-glass: linear-gradient(135deg, hsla(222 47% 8% / 0.9), hsla(222 47% 8% / 0.7));
+    --gradient-neon: linear-gradient(90deg, hsl(210 100% 60%), hsl(180 100% 50%), hsl(270 100% 65%));
 
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 hsl(222 47% 11% / 0.05);
-    --shadow-md: 0 4px 6px -1px hsl(222 47% 11% / 0.1);
-    --shadow-lg: 0 10px 15px -3px hsl(222 47% 11% / 0.1);
-    --shadow-glow: 0 0 20px hsl(210 90% 60% / 0.3);
-    --shadow-card: 0 4px 12px hsl(222 47% 11% / 0.08);
+    /* Neon glow shadows */
+    --shadow-sm: 0 1px 2px 0 hsl(210 100% 60% / 0.1);
+    --shadow-md: 0 4px 6px -1px hsl(210 100% 60% / 0.2);
+    --shadow-lg: 0 10px 15px -3px hsl(210 100% 60% / 0.3);
+    --shadow-glow: 0 0 30px hsl(210 100% 60% / 0.5);
+    --shadow-glow-cyan: 0 0 30px hsl(180 100% 50% / 0.5);
+    --shadow-glow-purple: 0 0 30px hsl(270 100% 65% / 0.5);
+    --shadow-card: 0 4px 20px hsl(210 100% 60% / 0.15);
 
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -89,43 +101,9 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222 47% 8%;
-    --foreground: 210 40% 98%;
-
-    --card: 222 47% 11%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222 47% 11%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 90% 55%;
-    --primary-foreground: 222 47% 11%;
-    --primary-glow: 210 90% 70%;
-
-    --secondary: 180 70% 45%;
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
-
-    --accent: 38 92% 55%;
-    --accent-foreground: 222 47% 11%;
-
-    --success: 142 76% 40%;
-    --success-foreground: 0 0% 100%;
-    
-    --warning: 38 92% 55%;
-    --warning-foreground: 222 47% 11%;
-    
-    --destructive: 0 84% 65%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 217 33% 17%;
-    --input: 217 33% 17%;
-    --ring: 210 90% 55%;
-
-    --gradient-hero: linear-gradient(135deg, hsl(210 90% 35%) 0%, hsl(180 70% 30%) 100%);
-    --shadow-glow: 0 0 30px hsl(210 90% 50% / 0.4);
+    /* Dark mode uses same futuristic theme */
+    --background: 222 47% 2%;
+    --card: 222 47% 6%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
