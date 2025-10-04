@@ -125,6 +125,41 @@ const Landing = () => {
         </div>
       </section>
 
+      {/* How it Works Section */}
+      <section id="how-it-works" className="container px-4 py-20 bg-card/30">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-3">
+            How it Works
+          </h2>
+          <p className="text-center text-muted-foreground text-lg mb-12">
+            Streamlined workflow for depot operations
+          </p>
+
+          <div className="grid md:grid-cols-4 gap-6">
+            <WorkflowStep
+              number="1"
+              title="Role-Based Input"
+              description="Each team member logs in and completes their specialized checklist - from fitness certificates to cleaning status."
+            />
+            <WorkflowStep
+              number="2"
+              title="Real-Time Aggregation"
+              description="All inputs are instantly aggregated and validated by the system, flagging conflicts and issues."
+            />
+            <WorkflowStep
+              number="3"
+              title="AI-Powered Ranking"
+              description="The system analyzes all data and generates an optimized induction plan ranked by readiness."
+            />
+            <WorkflowStep
+              number="4"
+              title="Supervisor Approval"
+              description="Supervisor reviews, approves, and locks the plan. The system generates reports and yard assignments."
+            />
+          </div>
+        </div>
+      </section>
+
       {/* User Roles Section */}
       <section id="roles" className="container px-4 py-20">
         <div className="max-w-7xl mx-auto">
@@ -237,6 +272,20 @@ const ImpactCard = ({ icon, number, label, color }: {
       {number}
     </div>
     <p className="text-muted-foreground font-semibold">{label}</p>
+  </div>
+);
+
+const WorkflowStep = ({ number, title, description }: {
+  number: string;
+  title: string;
+  description: string;
+}) => (
+  <div className="relative p-6 rounded-lg bg-card border border-border/50">
+    <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xl font-bold mb-4">
+      {number}
+    </div>
+    <h3 className="text-lg font-bold mb-2 text-foreground">{title}</h3>
+    <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
   </div>
 );
 
