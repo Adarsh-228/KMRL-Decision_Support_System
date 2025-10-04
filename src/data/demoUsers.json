@@ -1,0 +1,37 @@
+[
+  {
+    "role": "supervisor",
+    "employeeId": "EMP1001",
+    "password": "demo-supervisor-2025"
+  },
+  {
+    "role": "rollingStock",
+    "employeeId": "EMP2001",
+    "password": "demo-maint-2025"
+  },
+  {
+    "role": "signalling",
+    "employeeId": "EMP3001",
+    "password": "demo-signal-2025"
+  },
+  {
+    "role": "telecom",
+    "employeeId": "EMP4001",
+    "password": "demo-telecom-2025"
+  },
+  {
+    "role": "branding",
+    "employeeId": "EMP5001",
+    "password": "demo-brand-2025"
+  },
+  {
+    "role": "cleaning",
+    "employeeId": "EMP6001",
+    "password": "demo-clean-2025"
+  },
+  {
+    "role": "yard",
+    "employeeId": "EMP7001",
+    "password": "demo-yard-2025"
+  }
+]

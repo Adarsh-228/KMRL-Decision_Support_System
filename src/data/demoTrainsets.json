@@ -1,0 +1,129 @@
+[
+  {
+    "id": "KM-101",
+    "status": "Ready",
+    "odometerKm": 24000,
+    "fitnessExpiry": {
+      "rolling": "2025-12-31",
+      "signalling": "2026-01-01",
+      "telecom": "2026-01-01"
+    },
+    "jobCards": [
+      {
+        "id": "JC-001",
+        "severity": "high",
+        "status": "open",
+        "description": "Brake inspection pending"
+      }
+    ],
+    "branding": [
+      {
+        "id": "B-1",
+        "advertiser": "Coca-Cola",
+        "requiredHours": 8,
+        "actualHours": 6
+      }
+    ],
+    "cleaning": "Done",
+    "yardSlot": "A1",
+    "predictedTurnoutMin": 8,
+    "shuntingMovesEstimate": 2,
+    "lastServiceDate": "2025-09-20"
+  },
+  {
+    "id": "KM-102",
+    "status": "Maintenance",
+    "odometerKm": 30000,
+    "fitnessExpiry": {
+      "rolling": "2025-10-15",
+      "signalling": "2026-01-01",
+      "telecom": "2026-01-01"
+    },
+    "jobCards": [
+      {
+        "id": "JC-002",
+        "severity": "critical",
+        "status": "open",
+        "description": "Brake failure"
+      }
+    ],
+    "branding": [
+      {
+        "id": "B-2",
+        "advertiser": "Kochi Biennale",
+        "requiredHours": 10,
+        "actualHours": 0
+      }
+    ],
+    "cleaning": "Pending",
+    "yardSlot": "B2",
+    "predictedTurnoutMin": 18,
+    "shuntingMovesEstimate": 5,
+    "lastServiceDate": "2025-08-01"
+  },
+  {
+    "id": "KM-103",
+    "status": "Standby",
+    "odometerKm": 18000,
+    "fitnessExpiry": {
+      "rolling": "2025-11-20",
+      "signalling": "2025-10-15",
+      "telecom": "2026-01-01"
+    },
+    "jobCards": [],
+    "branding": [
+      {
+        "id": "B-3",
+        "advertiser": "Google Cloud",
+        "requiredHours": 6,
+        "actualHours": 5
+      }
+    ],
+    "cleaning": "Done",
+    "yardSlot": "C3",
+    "predictedTurnoutMin": 10,
+    "shuntingMovesEstimate": 3,
+    "lastServiceDate": "2025-09-05"
+  },
+  {
+    "id": "KM-104",
+    "status": "Ready",
+    "odometerKm": 15000,
+    "fitnessExpiry": {
+      "rolling": "2026-01-10",
+      "signalling": "2026-01-10",
+      "telecom": "2026-01-10"
+    },
+    "jobCards": [],
+    "branding": [],
+    "cleaning": "Done",
+    "yardSlot": "D4",
+    "predictedTurnoutMin": 7,
+    "shuntingMovesEstimate": 1,
+    "lastServiceDate": "2025-09-01"
+  },
+  {
+    "id": "KM-105",
+    "status": "Ready",
+    "odometerKm": 22000,
+    "fitnessExpiry": {
+      "rolling": "2025-12-01",
+      "signalling": "2026-01-01",
+      "telecom": "2026-01-01"
+    },
+    "jobCards": [],
+    "branding": [
+      {
+        "id": "B-4",
+        "advertiser": "AdCorp",
+        "requiredHours": 4,
+        "actualHours": 4
+      }
+    ],
+    "cleaning": "Pending",
+    "yardSlot": "E5",
+    "predictedTurnoutMin": 6,
+    "shuntingMovesEstimate": 1,
+    "lastServiceDate": "2025-09-10"
+  }
+]
