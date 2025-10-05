@@ -25,21 +25,54 @@ A production-quality frontend for Kochi Metro's intelligent trainset induction p
 - **Animations**: Framer Motion ready (CSS animations implemented)
 - **Data**: Demo JSON files (`demoTrainsets.json`, `demoUsers.json`)
 
-## 📦 Installation
+## 🚀 Running the Project
 
-```bash
-# Install dependencies
-npm install
+To get the project running locally, you'll need to set up both the backend and the frontend.
 
-# Start development server
-npm run dev
+### Backend (Python/FastAPI)
 
-# Build for production
-npm run build
+1.  **Navigate to the backend directory:**
+    ```bash
+    cd backend
+    ```
 
-# Preview production build
-npm run preview
-```
+2.  **Create and activate a virtual environment:**
+    ```bash
+    # Create the virtual environment
+    python -m venv .venv
+
+    # Activate on Windows
+    .venv\Scripts\activate
+
+    # Activate on macOS/Linux
+    source .venv/bin/activate
+    ```
+
+3.  **Install dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  **Run the backend server:**
+    ```bash
+    uvicorn main:app --reload
+    ```
+    The backend will be running at `http://127.0.0.1:8000`.
+
+### Frontend (React/Vite)
+
+1.  **Navigate to the project root directory.**
+
+2.  **Install dependencies using bun:**
+    ```bash
+    bun install
+    ```
+
+3.  **Run the frontend development server:**
+    ```bash
+    bun run dev
+    ```
+    The frontend will be available at `http://localhost:8080`.
 
 ## 🔐 Demo Credentials
 
@@ -119,7 +152,7 @@ Currently uses:
 
 ## 🤝 Contributing
 
-This is a Smart India Hackathon (SIH) finale project. For contributions or questions, please contact the development team.
+For contributions or questions, please contact the development team.
 
 ## 📄 License
 
@@ -133,4 +166,3 @@ MIT License - See LICENSE file for details
 
 ---
 
-**Built with ❤️ for Smart India Hackathon Finale**
