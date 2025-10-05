@@ -1,30 +1,85 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Sparkles, CheckCircle2, XCircle } from "lucide-react";
+import { Sparkles, CheckCircle2, XCircle, Loader, ServerCrash } from "lucide-react";
 import demoTrainsets from "@/data/demoTrainsets.json";
+
+// --- Data Types ---
+interface CleaningStatus {
+  interior_cleaning: boolean;
+  pest_control: boolean;
+  exterior_cleaning: boolean;
+}
+
+// --- API Fetch Function ---
+const fetchCleaningStatus = async (trainId: string): Promise<CleaningStatus> => {
+  const response = await fetch(`http://127.0.0.1:8000/api/cleaning/${trainId}/status`);
+  if (!response.ok) {
+    throw new Error(`Network response was not ok for train ${trainId}`);
+  }
+  return response.json();
+};
+
+// --- API Update Function ---
+const updateCleaningStatus = async ({ trainId, status }: { trainId: string; status: CleaningStatus }): Promise<CleaningStatus> => {
+  const response = await fetch(`http://127.0.0.1:8000/api/cleaning/${trainId}/status`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(status),
+  });
+  if (!response.ok) {
+    throw new Error("Failed to update status");
+  }
+  return response.json();
+};
 
 const CleaningDashboard = () => {
   const [selectedTrain, setSelectedTrain] = useState<string>("");
-  const [checklist, setChecklist] = useState<Record<string, boolean>>({});
+  const queryClient = useQueryClient();
 
-  const cleaningTasks = {
-    interior: ["Floors", "Windows", "Seats", "Toilets"],
-    pestControl: ["Pest Control", "Sanitization (Post-COVID)"],
-    exterior: ["Dust-free & Branding Visibility"],
+  const { data, isLoading, isError, error } = useQuery<CleaningStatus, Error>({
+    queryKey: ["cleaningStatus", selectedTrain],
+    queryFn: () => fetchCleaningStatus(selectedTrain),
+    enabled: !!selectedTrain, // Only fetch when a train is selected
+  });
+
+  const mutation = useMutation<CleaningStatus, Error, { trainId: string; status: CleaningStatus }>({
+    mutationFn: updateCleaningStatus,
+    onSuccess: (newData) => {
+      queryClient.setQueryData(["cleaningStatus", selectedTrain], newData);
+    },
+  });
+
+  const handleCheckChange = (task: keyof CleaningStatus, checked: boolean) => {
+    if (data) {
+      const newStatus = { ...data, [task]: checked };
+      mutation.mutate({ trainId: selectedTrain, status: newStatus });
+    }
   };
 
-  const allTasks = [...cleaningTasks.interior, ...cleaningTasks.pestControl, ...cleaningTasks.exterior];
-  const completedTasks = Object.values(checklist).filter(Boolean).length;
-  const totalTasks = allTasks.length;
-
-  const handleCheckChange = (taskId: string, checked: boolean) => {
-    setChecklist(prev => ({ ...prev, [taskId]: checked }));
-  };
+  const ChecklistItem = ({ task, label }: { task: keyof CleaningStatus; label: string }) => (
+    <div className="flex items-center gap-3 p-3 bg-muted/20 rounded-md">
+      <Checkbox
+        id={task}
+        checked={data?.[task] || false}
+        onCheckedChange={(checked) => handleCheckChange(task, checked as boolean)}
+        disabled={!data || mutation.isPending}
+      />
+      <Label htmlFor={task} className="flex-1 cursor-pointer text-sm">
+        {label}
+      </Label>
+      {data?.[task] ? (
+        <CheckCircle2 className="w-5 h-5 text-success" />
+      ) : (
+        <XCircle className="w-5 h-5 text-muted-foreground" />
+      )}
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-background p-6">
@@ -53,7 +108,7 @@ const CleaningDashboard = () => {
               <SelectContent>
                 {demoTrainsets.map((t) => (
                   <SelectItem key={t.id} value={t.id}>
-                    {t.id} - Cleaning Status: {t.cleaning}
+                    {t.id}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -61,131 +116,31 @@ const CleaningDashboard = () => {
           </div>
         </Card>
 
-        {/* Cleaning Checklist (only show when trainset is selected) */}
+        {/* Cleaning Checklist */}
         {selectedTrain && (
-          <>
-            {/* Progress Card */}
-            <Card className="border-border bg-card">
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-2xl font-bold text-foreground">Cleaning Progress</h2>
-                  <Badge className={completedTasks === totalTasks ? "bg-success/20 text-success" : "bg-warning/20 text-warning"}>
-                    {completedTasks} / {totalTasks} Tasks
-                  </Badge>
-                </div>
-                <div className="w-full bg-muted rounded-full h-3">
-                  <div 
-                    className="bg-success h-3 rounded-full transition-all" 
-                    style={{ width: `${(completedTasks / totalTasks) * 100}%` }}
-                  />
-                </div>
-              </div>
-            </Card>
-
-            {/* Cleaning Checklist */}
-            <div className="grid md:grid-cols-3 gap-6">
-              {/* Interior Cleaning */}
-              <Card className="border-border bg-card">
-                <div className="p-6">
-                  <h3 className="text-lg font-bold text-foreground mb-4">Interior Cleaning</h3>
-                  <div className="space-y-3">
-                    {cleaningTasks.interior.map((task) => {
-                      const taskId = `${selectedTrain}-${task}`;
-                      const isChecked = checklist[taskId] || false;
-                      return (
-                        <div key={task} className="flex items-center gap-3 p-3 bg-muted/20 rounded-md">
-                          <Checkbox
-                            id={taskId}
-                            checked={isChecked}
-                            onCheckedChange={(checked) => handleCheckChange(taskId, checked as boolean)}
-                          />
-                          <Label htmlFor={taskId} className="flex-1 cursor-pointer text-sm">
-                            {task}
-                          </Label>
-                          {isChecked ? (
-                            <CheckCircle2 className="w-5 h-5 text-success" />
-                          ) : (
-                            <XCircle className="w-5 h-5 text-muted-foreground" />
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </Card>
-
-              {/* Pest Control & Sanitization */}
-              <Card className="border-border bg-card">
-                <div className="p-6">
-                  <h3 className="text-lg font-bold text-foreground mb-4">Pest Control & Sanitization</h3>
-                  <div className="space-y-3">
-                    {cleaningTasks.pestControl.map((task) => {
-                      const taskId = `${selectedTrain}-${task}`;
-                      const isChecked = checklist[taskId] || false;
-                      return (
-                        <div key={task} className="flex items-center gap-3 p-3 bg-muted/20 rounded-md">
-                          <Checkbox
-                            id={taskId}
-                            checked={isChecked}
-                            onCheckedChange={(checked) => handleCheckChange(taskId, checked as boolean)}
-                          />
-                          <Label htmlFor={taskId} className="flex-1 cursor-pointer text-sm">
-                            {task}
-                          </Label>
-                          {isChecked ? (
-                            <CheckCircle2 className="w-5 h-5 text-success" />
-                          ) : (
-                            <XCircle className="w-5 h-5 text-muted-foreground" />
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </Card>
-
-              {/* Exterior Cleaning */}
-              <Card className="border-border bg-card">
-                <div className="p-6">
-                  <h3 className="text-lg font-bold text-foreground mb-4">Exterior Cleaning</h3>
-                  <div className="space-y-3">
-                    {cleaningTasks.exterior.map((task) => {
-                      const taskId = `${selectedTrain}-${task}`;
-                      const isChecked = checklist[taskId] || false;
-                      return (
-                        <div key={task} className="flex items-center gap-3 p-3 bg-muted/20 rounded-md">
-                          <Checkbox
-                            id={taskId}
-                            checked={isChecked}
-                            onCheckedChange={(checked) => handleCheckChange(taskId, checked as boolean)}
-                          />
-                          <Label htmlFor={taskId} className="flex-1 cursor-pointer text-sm">
-                            {task}
-                          </Label>
-                          {isChecked ? (
-                            <CheckCircle2 className="w-5 h-5 text-success" />
-                          ) : (
-                            <XCircle className="w-5 h-5 text-muted-foreground" />
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </Card>
+          <Card className="border-border bg-card">
+            <div className="p-6 border-b border-border">
+              <h2 className="text-2xl font-bold text-foreground">Cleaning Checklist for {selectedTrain}</h2>
             </div>
-
-            {/* Remarks */}
-            <Card className="border-border bg-card">
-              <div className="p-6">
-                <Label className="text-sm font-semibold text-foreground mb-3 block">Additional Remarks</Label>
-                <Textarea 
-                  placeholder="Enter any observations, issues found, or special cleaning requirements..."
-                  className="min-h-[100px]"
-                />
-              </div>
-            </Card>
-          </>
+            <div className="p-6">
+              {isLoading ? (
+                <div className="flex items-center justify-center h-32">
+                  <Loader className="w-8 h-8 animate-spin text-primary" />
+                </div>
+              ) : isError ? (
+                <div className="flex items-center justify-center h-32 bg-destructive/10 rounded-lg">
+                  <ServerCrash className="w-8 h-8 text-destructive" />
+                  <p className="ml-4 text-lg text-destructive">Error: {error.message}</p>
+                </div>
+              ) : data ? (
+                <div className="space-y-3">
+                  <ChecklistItem task="interior_cleaning" label="Interior Cleaning (Floors, Windows, Seats, Toilets)" />
+                  <ChecklistItem task="pest_control" label="Pest Control & Sanitization" />
+                  <ChecklistItem task="exterior_cleaning" label="Exterior Cleaning (Dust-free & Branding)" />
+                </div>
+              ) : null}
+            </div>
+          </Card>
         )}
 
         {/* Empty State */}
@@ -195,7 +150,7 @@ const CleaningDashboard = () => {
               <Sparkles className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-muted-foreground mb-2">No Trainset Selected</h3>
               <p className="text-sm text-muted-foreground">
-                Please select a trainset from the dropdown above to view its cleaning checklist.
+                Please select a trainset to view its cleaning checklist.
               </p>
             </div>
           </Card>

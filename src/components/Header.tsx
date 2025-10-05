@@ -35,10 +35,6 @@ export const Header = () => {
           <div className="p-2 rounded-lg bg-primary">
             <Train className="w-6 h-6 text-primary-foreground" />
           </div>
-          <div>
-            <h1 className="text-lg font-bold text-foreground">KMRL DSS</h1>
-            <p className="text-[10px] text-muted-foreground">Decision Support</p>
-          </div>
         </Link>
 
         <nav className="flex items-center gap-6">

@@ -228,14 +228,8 @@ const Landing = () => {
       <footer id="contact" className="border-t border-border/50 bg-card/50">
         <div className="container px-4 py-8">
           <div className="max-w-6xl mx-auto text-center">
-            <h3 className="text-xl font-bold mb-1">
-              Smart Depot Induction Platform
-            </h3>
-            <p className="text-muted-foreground text-sm mb-3">
-              Next-generation depot operations management
-            </p>
             <p className="text-muted-foreground text-xs">
-              © 2025 KMRL DSS. All rights reserved.
+              © 2025. All rights reserved.
             </p>
           </div>
         </div>

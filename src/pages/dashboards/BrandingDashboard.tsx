@@ -1,132 +1,147 @@
+import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { Palette, Plus, Flag, Upload } from "lucide-react";
-import demoTrainsets from "@/data/demoTrainsets.json";
+import { Palette, Plus, Loader, ServerCrash } from "lucide-react";
+import { format } from 'date-fns';
+
+// --- Data Types ---
+interface BrandingCampaign {
+  campaign_id: string;
+  brand_name: string;
+  ad_content: string;
+  start_date: string; // Assuming ISO string format from backend
+  end_date: string;
+}
+
+interface BrandingCampaignCreate {
+  brand_name: string;
+  ad_content: string;
+  start_date: string;
+  end_date: string;
+}
+
+// --- API Functions ---
+const fetchBrandingCampaigns = async (): Promise<BrandingCampaign[]> => {
+  const response = await fetch(`http://127.0.0.1:8000/api/branding/campaigns`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch campaigns");
+  }
+  return response.json();
+};
+
+const createBrandingCampaign = async (newCampaign: BrandingCampaignCreate): Promise<BrandingCampaign> => {
+  const response = await fetch(`http://127.0.0.1:8000/api/branding/campaigns`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newCampaign),
+  });
+  if (!response.ok) {
+    throw new Error("Failed to create campaign");
+  }
+  return response.json();
+};
 
 const BrandingDashboard = () => {
+  const queryClient = useQueryClient();
+  const [newCampaign, setNewCampaign] = useState<BrandingCampaignCreate>({
+    brand_name: "",
+    ad_content: "",
+    start_date: "",
+    end_date: "",
+  });
+
+  const { data: campaigns, isLoading, isError, error } = useQuery<BrandingCampaign[], Error>({
+    queryKey: ["brandingCampaigns"],
+    queryFn: fetchBrandingCampaigns,
+  });
+
+  const mutation = useMutation<BrandingCampaign, Error, BrandingCampaignCreate>({
+    mutationFn: createBrandingCampaign,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["brandingCampaigns"] });
+      setNewCampaign({ brand_name: "", ad_content: "", start_date: "", end_date: "" });
+    },
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setNewCampaign(prev => ({ ...prev, [id]: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    mutation.mutate(newCampaign);
+  };
+
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Palette className="w-7 h-7 text-primary" />
+             <div className="p-3 rounded-lg bg-primary/10">
+                <Palette className="w-8 h-8 text-primary" />
+            </div>
             <div>
               <h1 className="text-3xl font-bold text-foreground">Branding Team</h1>
-              <p className="text-muted-foreground">Campaign Management & Exposure Tracking</p>
+              <p className="text-muted-foreground">Campaign Management</p>
             </div>
           </div>
-          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2">
-            <Plus className="w-4 h-4" />
-            New Campaign
-          </Button>
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-6">
-          {demoTrainsets
-            .filter((t) => t.branding.length > 0)
-            .map((trainset) =>
-              trainset.branding.map((brand) => {
-                const exposurePercent = Math.round((brand.actualHours / brand.requiredHours) * 100);
-                return (
-                  <Card key={brand.id} className="p-6 bg-card border-border">
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <h2 className="text-xl font-bold text-foreground">{brand.advertiser}</h2>
-                        <p className="text-sm text-muted-foreground mt-1">Trainset: {trainset.id}</p>
-                      </div>
-                      <Badge
-                        className={
-                          exposurePercent >= 100
-                            ? "bg-success/20 text-success"
-                            : exposurePercent >= 75
-                            ? "bg-warning/20 text-warning"
-                            : "bg-destructive/20 text-destructive"
-                        }
-                      >
-                        {exposurePercent}% Complete
-                      </Badge>
-                    </div>
-
-                    <div className="space-y-4">
-                      <div>
-                        <div className="flex justify-between text-sm mb-2">
-                          <span className="text-muted-foreground">Exposure Hours</span>
-                          <span className="font-semibold text-foreground">
-                            {brand.actualHours} / {brand.requiredHours}h
-                          </span>
-                        </div>
-                        <Progress value={exposurePercent} className="h-2" />
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <Label className="text-xs text-muted-foreground">Start Date</Label>
-                          <Input type="date" defaultValue="2025-09-01" className="mt-1" />
-                        </div>
-                        <div>
-                          <Label className="text-xs text-muted-foreground">End Date</Label>
-                          <Input type="date" defaultValue="2025-10-31" className="mt-1" />
-                        </div>
-                      </div>
-
-                      <div>
-                        <Label className="text-xs text-muted-foreground">Duration (hours/day)</Label>
-                        <Input type="number" defaultValue="4" className="mt-1" />
-                      </div>
-
-                      <div className="flex gap-2 pt-2 border-t border-border">
-                        <Button size="sm" variant="outline" className="flex-1 gap-2">
-                          <Flag className="w-4 h-4" />
-                          Flag for Refresh
-                        </Button>
-                        <Button size="sm" variant="outline" className="flex-1 gap-2">
-                          <Upload className="w-4 h-4" />
-                          Upload Proof
-                        </Button>
-                      </div>
-                    </div>
-                  </Card>
-                );
-              })
-            )}
         </div>
 
         <Card className="p-6 bg-card border-border">
+          <h2 className="text-xl font-bold text-foreground mb-4">Active Campaigns</h2>
+          {isLoading ? (
+            <div className="text-center text-muted-foreground">Loading campaigns...</div>
+          ) : isError ? (
+            <div className="text-center text-destructive">Error: {error.message}</div>
+          ) : campaigns && campaigns.length > 0 ? (
+            <div className="grid lg:grid-cols-2 gap-6">
+              {campaigns.map((campaign) => (
+                <Card key={campaign.campaign_id} className="p-4 bg-muted/30">
+                  <h3 className="font-bold text-foreground">{campaign.brand_name}</h3>
+                  <p className="text-sm text-muted-foreground mb-2">Content: {campaign.ad_content}</p>
+                  <Badge>From {format(new Date(campaign.start_date), 'PPP')} to {format(new Date(campaign.end_date), 'PPP')}</Badge>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center text-muted-foreground py-8">No active campaigns.</div>
+          )}
+        </Card>
+
+        <Card className="p-6 bg-card border-border">
           <h2 className="text-xl font-bold text-foreground mb-4">Create New Campaign</h2>
-          <div className="grid md:grid-cols-2 gap-4 mb-4">
-            <div>
-              <Label htmlFor="advertiser">Advertiser / Brand Name</Label>
-              <Input id="advertiser" placeholder="Enter advertiser name" className="mt-2" />
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="brand_name">Advertiser / Brand Name</Label>
+                <Input id="brand_name" value={newCampaign.brand_name} onChange={handleInputChange} placeholder="Enter advertiser name" className="mt-2" required />
+              </div>
+              <div>
+                <Label htmlFor="ad_content">Ad Content</Label>
+                <Input id="ad_content" value={newCampaign.ad_content} onChange={handleInputChange} placeholder="e.g., 'Summer Sale Poster'" className="mt-2" required />
+              </div>
+              <div>
+                <Label htmlFor="start_date">Start Date</Label>
+                <Input id="start_date" value={newCampaign.start_date} onChange={handleInputChange} type="date" className="mt-2" required />
+              </div>
+              <div>
+                <Label htmlFor="end_date">End Date</Label>
+                <Input id="end_date" value={newCampaign.end_date} onChange={handleInputChange} type="date" className="mt-2" required />
+              </div>
             </div>
-            <div>
-              <Label htmlFor="target">Exposure Target (hours)</Label>
-              <Input id="target" type="number" placeholder="100" className="mt-2" />
-            </div>
-            <div>
-              <Label htmlFor="start">Start Date</Label>
-              <Input id="start" type="date" className="mt-2" />
-            </div>
-            <div>
-              <Label htmlFor="end">End Date</Label>
-              <Input id="end" type="date" className="mt-2" />
-            </div>
-          </div>
-          <div className="mb-4">
-            <Label htmlFor="content">Ad Content / File</Label>
-            <div className="mt-2">
-              <Button variant="outline" className="gap-2">
-                <Upload className="w-4 h-4" />
-                Upload Ad Content
-              </Button>
-            </div>
-          </div>
-          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
-            Submit to Supervisor for Approval
-          </Button>
+            {mutation.isError && (
+                <div className="text-destructive text-sm">Error creating campaign: {mutation.error.message}</div>
+            )}
+            <Button type="submit" disabled={mutation.isPending} className="gap-2">
+              {mutation.isPending ? <Loader className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
+              Create Campaign
+            </Button>
+          </form>
         </Card>
       </div>
     </div>

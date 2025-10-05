@@ -1,99 +1,135 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useQueries } from "@tanstack/react-query";
 import { Card } from "@/components/ui/card";
-import { TrainsetCard } from "@/components/TrainsetCard";
-import { BarChart3, FileCheck, Users, AlertTriangle } from "lucide-react";
-import demoTrainsets from "@/data/demoTrainsets.json";
+import { Link } from "react-router-dom";
+import { Eye, CheckCircle2, XCircle, Wrench, Sparkles, Radio, Phone, Loader, ServerCrash } from "lucide-react";
+
+// --- API Fetch Functions ---
+const fetchSignallingStatus = async () => {
+  const res = await fetch("http://127.0.0.1:8000/api/signalling/status");
+  if (!res.ok) throw new Error("Failed to fetch signalling status");
+  return res.json();
+};
+
+const fetchTelecomStatus = async () => {
+  const res = await fetch("http://127.0.0.1:8000/api/telecom/status");
+  if (!res.ok) throw new Error("Failed to fetch telecom status");
+  return res.json();
+};
+
+const fetchRollingStockData = async (trainId: string) => {
+  const res = await fetch(`http://127.0.0.1:8000/api/rollingstock/${trainId}`);
+  if (!res.ok) throw new Error("Failed to fetch rolling stock data");
+  return res.json();
+};
+
+const fetchCleaningStatus = async (trainId: string) => {
+  const res = await fetch(`http://127.0.0.1:8000/api/cleaning/${trainId}/status`);
+  if (!res.ok) throw new Error("Failed to fetch cleaning status");
+  return res.json();
+};
 
 const SupervisorDashboard = () => {
-  const [selectedTrain, setSelectedTrain] = useState<string | null>(null);
+  const results = useQueries({
+    queries: [
+      { queryKey: ["signallingStatus"], queryFn: fetchSignallingStatus },
+      { queryKey: ["telecomStatus"], queryFn: fetchTelecomStatus },
+      { queryKey: ["rollingStock", "train_001"], queryFn: () => fetchRollingStockData("train_001") },
+      { queryKey: ["cleaningStatus", "train_001"], queryFn: () => fetchCleaningStatus("train_001") },
+    ],
+  });
 
-  const kpis = [
-    { label: "Fleet Readiness", value: "60%", icon: <BarChart3 className="w-5 h-5" />, color: "text-success" },
-    { label: "Branding Exposure", value: "75%", icon: <Users className="w-5 h-5" />, color: "text-primary" },
-    { label: "Open Job Cards", value: "2", icon: <AlertTriangle className="w-5 h-5" />, color: "text-warning" },
-    { label: "Shunting Score", value: "8.2", icon: <FileCheck className="w-5 h-5" />, color: "text-info" },
-  ];
+  const isLoading = results.some(query => query.isLoading);
+  const isError = results.some(query => query.isError);
+
+  const signallingStatus = results[0].data ? 
+    Object.values(results[0].data).every(Boolean) : null;
+  const telecomStatus = results[1].data ? 
+    Object.values(results[1].data).every(Boolean) : null;
+  const rollingStockAlerts = results[2].data?.inspection_alerts.length ?? null;
+  const cleaningStatus = results[3].data ? 
+    Object.values(results[3].data).every(Boolean) : null;
 
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Supervisor Dashboard</h1>
-            <p className="text-muted-foreground mt-1">
-              {new Date().toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
-            </p>
-          </div>
-          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
-            Run Optimizer
-          </Button>
-        </div>
-
-        {/* KPI Strip */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          {kpis.map((kpi) => (
-            <Card key={kpi.label} className="p-4 bg-card border-border">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">{kpi.label}</p>
-                  <p className={`text-2xl font-bold ${kpi.color}`}>{kpi.value}</p>
-                </div>
-                <div className={kpi.color}>{kpi.icon}</div>
-              </div>
-            </Card>
-          ))}
-        </div>
-
-        {/* Ranked Induction Panel */}
-        <Card className="p-6 bg-card border-border">
-          <div className="flex items-center gap-3 mb-6">
-            <BarChart3 className="w-6 h-6 text-primary" />
-            <h2 className="text-2xl font-bold text-foreground">Ranked Induction Plan</h2>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {demoTrainsets.map((trainset, idx) => (
-              <TrainsetCard
-                key={trainset.id}
-                trainset={trainset}
-                confidence={[92, 85, 82, 78, 72][idx]}
-                expanded={selectedTrain === trainset.id}
-                onClick={() => setSelectedTrain(trainset.id)}
-              />
-            ))}
-          </div>
-
-          <div className="mt-6 p-4 bg-muted/30 rounded-lg border border-border/30">
-            <h3 className="font-bold text-foreground mb-3">Final Recommendation</h3>
-            <div className="space-y-2 text-sm">
-              <p>
-                <span className="font-semibold text-success">Recommend for Service:</span>{" "}
-                <span className="text-foreground">KM-104, KM-105</span>
-              </p>
-              <p>
-                <span className="font-semibold text-warning">Standby:</span>{" "}
-                <span className="text-foreground">KM-101, KM-103</span>
-              </p>
-              <p>
-                <span className="font-semibold text-destructive">IBL (Immediate Block):</span>{" "}
-                <span className="text-foreground">KM-102</span>
-              </p>
+          <div className="flex items-center gap-3">
+            <div className="p-3 rounded-lg bg-primary/10">
+                <Eye className="w-8 h-8 text-primary" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-foreground">Supervisor Dashboard</h1>
+              <p className="text-muted-foreground mt-1">High-level System Overview</p>
             </div>
           </div>
+        </div>
 
-          <div className="mt-6 flex gap-4">
-            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground flex-1">
-              Lock & Approve Plan
-            </Button>
-            <Button variant="outline" className="flex-1">
-              Export PDF
-            </Button>
-          </div>
+        <Card className="p-6 bg-card border-border">
+            <h2 className="text-2xl font-bold text-foreground mb-6">System Status Overview</h2>
+            {isLoading ? (
+                <div className="flex items-center justify-center h-48">
+                    <Loader className="w-8 h-8 animate-spin text-primary" />
+                    <p className="ml-4 text-lg text-muted-foreground">Loading system statuses...</p>
+                </div>
+            ) : isError ? (
+                <div className="flex items-center justify-center h-48 bg-destructive/10 rounded-lg">
+                    <ServerCrash className="w-8 h-8 text-destructive" />
+                    <p className="ml-4 text-lg text-destructive">Error fetching system data.</p>
+                </div>
+            ) : (
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <StatusCard 
+                        title="Signalling" 
+                        isOk={signallingStatus} 
+                        details={signallingStatus ? "All systems nominal" : "Issues detected"} 
+                        linkTo="/dashboard/signalling"
+                        icon={<Radio className="w-6 h-6"/>}
+                    />
+                    <StatusCard 
+                        title="Telecom" 
+                        isOk={telecomStatus} 
+                        details={telecomStatus ? "All systems nominal" : "Issues detected"} 
+                        linkTo="/dashboard/telecom"
+                        icon={<Phone className="w-6 h-6"/>}
+                    />
+                    <StatusCard 
+                        title="Rolling Stock (T-001)" 
+                        isOk={rollingStockAlerts === 0} 
+                        details={`${rollingStockAlerts ?? 'N/A'} open alerts`} 
+                        linkTo="/dashboard/rollingStock"
+                        icon={<Wrench className="w-6 h-6"/>}
+                    />
+                    <StatusCard 
+                        title="Cleaning (T-001)" 
+                        isOk={cleaningStatus} 
+                        details={cleaningStatus ? "Fully cleaned" : "Cleaning pending"} 
+                        linkTo="/dashboard/cleaning"
+                        icon={<Sparkles className="w-6 h-6"/>}
+                    />
+                </div>
+            )}
         </Card>
       </div>
     </div>
   );
 };
+
+const StatusCard = ({ title, isOk, details, linkTo, icon }: { title: string, isOk: boolean | null, details: string, linkTo: string, icon: React.ReactNode }) => {
+    const statusColor = isOk ? "text-success" : "text-destructive";
+    const statusIcon = isOk ? <CheckCircle2 /> : <XCircle />;
+
+    return (
+        <Link to={linkTo}>
+            <Card className="p-6 bg-muted/30 hover:bg-muted/50 transition-colors h-full">
+                <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-bold text-foreground flex items-center gap-2">{icon} {title}</h3>
+                    {isOk !== null && <div className={statusColor}>{statusIcon}</div>}
+                </div>
+                <p className={`text-2xl font-bold ${statusColor}`}>{isOk ? "Operational" : "Issues Detected"}</p>
+                <p className="text-sm text-muted-foreground mt-1">{details}</p>
+            </Card>
+        </Link>
+    )
+}
 
 export default SupervisorDashboard;
